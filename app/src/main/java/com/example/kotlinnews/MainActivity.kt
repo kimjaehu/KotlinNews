@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recyclerView_main.layoutManager = LinearLayoutManager(this)
-        recyclerView_main.adapter = MainAdapter()
 
         fetchJson()
     }
@@ -38,7 +37,10 @@ class MainActivity : AppCompatActivity() {
                 val gson = GsonBuilder().create()
 
                 val homeFeed = gson.fromJson(body, HomeFeed::class.java)
-                println(homeFeed)
+
+                runOnUiThread {
+                    recyclerView_main.adapter = MainAdapter(homeFeed)
+                }
             }
 
         })

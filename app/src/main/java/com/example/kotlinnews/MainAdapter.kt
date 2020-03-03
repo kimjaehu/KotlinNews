@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.article_row.view.*
 
-class MainAdapter: RecyclerView.Adapter<CustomViewHolder>() {
+class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder>() {
 
     val articleTitles = listOf<String>("first", "second", "third", "fourth")
 
     override fun getItemCount(): Int {
-        return articleTitles.size
+        return homeFeed.data.children.count()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -21,8 +21,9 @@ class MainAdapter: RecyclerView.Adapter<CustomViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val articleTitle = articleTitles.get(position)
-        holder?.view?.textView_article_title?.text = articleTitle
+
+        val article = homeFeed.data.children.get(position)
+        holder?.view?.textView_article_title?.text = article.data.title
 
     }
 
