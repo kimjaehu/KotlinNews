@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.article_row.view.*
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder>() {
@@ -31,16 +33,15 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-
+        val dateConversionFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
         val article = homeFeed.data.children.get(position).data
         holder?.view?.textView_article_title?.text = article.title
         val timestamp = article.created
         val timestampAsDateString = DateTimeFormatter.ISO_INSTANT
             .format(java.time.Instant.ofEpochSecond(timestamp))
-//        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-//        val formattedDate = LocalDate.parse(timestampAsDateString, dateFormatter)
-        holder?.view?.textView_author?.text = "$timestampAsDateString by ${article.author}"
+        val date = LocalDate.parse(timestampAsDateString, dateConversionFormat)
 
+        holder?.view?.textView_author?.text = "${date.month.toString().toLowerCase().capitalize()} ${date.dayOfMonth}, ${date.year} by ${article.author}"
 
         val thumbnailImageView = holder.view.imageView_thumbnail
 
@@ -72,6 +73,7 @@ class CustomViewHolder(val view: View, var article: Article? = null): RecyclerVi
             intent.putExtra(ARTICLE_TITLE_KEY, article?.title)
             intent.putExtra(ARTICLE_THUMBNAIL_KEY, article?.thumbnail)
             intent.putExtra(ARTICLE_URL_KEY, article?.url)
+
 
             view.context.startActivity(intent)
         }
