@@ -24,7 +24,7 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
 
         val article = homeFeed.data.children.get(position)
         holder?.view?.textView_article_title?.text = article.data.title
-
+        holder?.view?.textView_author?.text = "by ${article.data.author}"
     }
 
 
