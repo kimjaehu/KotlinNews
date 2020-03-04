@@ -1,14 +1,19 @@
 package com.example.kotlinnews
 
 import android.content.Intent
+import android.os.Build
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.article_row.view.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder>() {
 
@@ -24,11 +29,18 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
         return CustomViewHolder(cellForRow)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 
         val article = homeFeed.data.children.get(position).data
         holder?.view?.textView_article_title?.text = article.title
-        holder?.view?.textView_author?.text = "by ${article.author}"
+        val timestamp = article.created
+        val timestampAsDateString = DateTimeFormatter.ISO_INSTANT
+            .format(java.time.Instant.ofEpochSecond(timestamp))
+//        val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//        val formattedDate = LocalDate.parse(timestampAsDateString, dateFormatter)
+        holder?.view?.textView_author?.text = "$timestampAsDateString by ${article.author}"
+
 
         val thumbnailImageView = holder.view.imageView_thumbnail
 

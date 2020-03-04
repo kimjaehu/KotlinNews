@@ -8,18 +8,17 @@
     <ImageView
         android:id="@+id/imageView_thumbnail"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:adjustViewBounds="true"
         android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_author"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/nature" />
 
     <TextView
         android:id="@+id/textView_article_title"
@@ -30,7 +29,7 @@
         android:layout_marginEnd="8dp"
         android:text="ArticleTitle"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:autoSizeMinTextSize="14dp"
         app:autoSizeTextType="uniform"
@@ -43,11 +42,25 @@
         android:id="@+id/textView_author"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/textView_article_title"
         app:layout_constraintStart_toStartOf="@+id/textView_article_title"
         app:layout_constraintTop_toBottomOf="@+id/textView_article_title" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#ECECEC"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_thumbnail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
