@@ -26,29 +26,41 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 
-        val article = homeFeed.data.children.get(position)
-        holder?.view?.textView_article_title?.text = article.data.title
-        holder?.view?.textView_author?.text = "by ${article.data.author}"
+        val article = homeFeed.data.children.get(position).data
+        holder?.view?.textView_article_title?.text = article.title
+        holder?.view?.textView_author?.text = "by ${article.author}"
 
         val thumbnailImageView = holder.view.imageView_thumbnail
 
-        if(!TextUtils.isEmpty(article.data.thumbnail.trim()) && article.data.thumbnail.trim().isNotEmpty()){
-            if(Patterns.WEB_URL.matcher(article.data.thumbnail).matches()){
-                Picasso.get().load(article.data.thumbnail).into(thumbnailImageView)
+        if(!TextUtils.isEmpty(article.thumbnail.trim()) && article.thumbnail.trim().isNotEmpty()){
+            if(Patterns.WEB_URL.matcher(article.thumbnail).matches()){
+                Picasso.get().load(article.thumbnail).into(thumbnailImageView)
             }
         } else {
             holder.view.imageView_thumbnail.visibility = View.GONE
         }
+
+        holder?.article = article
     }
 
 
 }
 
-class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view) {
+class CustomViewHolder(val view: View, var article: Article? = null): RecyclerView.ViewHolder(view) {
+
+    companion object {
+        val ARTICLE_TITLE_KEY = "ARTICLE_TITLE"
+        val ARTICLE_THUMBNAIL_KEY = "ARTICLE_THUMBNAIL"
+        val ARTICLE_URL_KEY = "ARTICLE_URL"
+    }
 
     init {
         view.setOnClickListener {
             val intent = Intent(view.context, ArticleActivity::class.java)
+            intent.putExtra(ARTICLE_TITLE_KEY, article?.title)
+            intent.putExtra(ARTICLE_THUMBNAIL_KEY, article?.thumbnail)
+            intent.putExtra(ARTICLE_URL_KEY, article?.url)
+
             view.context.startActivity(intent)
         }
     }

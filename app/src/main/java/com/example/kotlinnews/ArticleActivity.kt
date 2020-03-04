@@ -5,6 +5,7 @@ import android.os.PersistableBundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.article_detail.view.*
 
 class ArticleActivity : AppCompatActivity() {
     private lateinit var webView: WebView
@@ -14,6 +15,11 @@ class ArticleActivity : AppCompatActivity() {
 
         setContentView(R.layout.article_detail)
 
+        var navBarTitle = intent.getStringExtra(CustomViewHolder.ARTICLE_TITLE_KEY)
+        supportActionBar?.title = navBarTitle
+
+        val articleURL = intent.getStringExtra(CustomViewHolder.ARTICLE_URL_KEY)
+
         webView = findViewById(R.id.webView_article)
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
@@ -21,6 +27,6 @@ class ArticleActivity : AppCompatActivity() {
                 return true
             }
         }
-        webView.loadUrl("https://www.google.co.in/")
+        webView.loadUrl(articleURL)
     }
 }
