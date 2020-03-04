@@ -1,5 +1,6 @@
 package com.example.kotlinnews
 
+import android.content.Intent
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -38,14 +39,18 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
         } else {
             holder.view.imageView_thumbnail.visibility = View.GONE
         }
-
-
-
     }
 
 
 }
 
 class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view) {
+
+    init {
+        view.setOnClickListener {
+            val intent = Intent(view.context, ArticleActivity::class.java)
+            view.context.startActivity(intent)
+        }
+    }
 
 }
