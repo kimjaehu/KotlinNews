@@ -21,22 +21,26 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        val layoutInflater = LayoutInflater.from(parent?.context)
+        val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.article_row, parent, false)
         return CustomViewHolder(cellForRow)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val dateConversionFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        val article = homeFeed.data.children.get(position).data
-        holder?.view?.textView_article_title?.text = article.title
-        val timestamp = article.created
-        val timestampAsDateString = DateTimeFormatter.ISO_INSTANT
-            .format(java.time.Instant.ofEpochSecond(timestamp))
-        val date = LocalDate.parse(timestampAsDateString, dateConversionFormat)
 
-        holder?.view?.textView_author?.text = "${date.month.toString().toLowerCase().capitalize()} ${date.dayOfMonth}, ${date.year} by ${article.author}"
+        val article = homeFeed.data.children.get(position).data
+        holder.view.textView_article_title?.text = article.title
+//        compatibility issue below sdk 26
+//        val dateConversionFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+//        val timestamp = article.created
+//        val timestampAsDateString = DateTimeFormatter.ISO_INSTANT
+//            .format(java.time.Instant.ofEpochSecond(timestamp))
+//        val date = LocalDate.parse(timestampAsDateString, dateConversionFormat)
+//
+//        holder?.view?.textView_author?.text = "${date.month.toString().toLowerCase().capitalize()} ${date.dayOfMonth}, ${date.year} by ${article.author}"
+
+        holder.view.textView_author?.text = "by ${article.author}"
 
         val thumbnailImageView = holder.view.imageView_thumbnail
 
@@ -48,7 +52,7 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
             holder.view.imageView_thumbnail.visibility = View.GONE
         }
 
-        holder?.article = article
+        holder.article = article
     }
 
 
