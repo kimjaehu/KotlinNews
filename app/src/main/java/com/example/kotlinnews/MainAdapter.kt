@@ -11,8 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.article_row.view.*
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder>() {
 
@@ -29,8 +27,12 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 
-        val article = homeFeed.data.children.get(position).data
+        val article = homeFeed.data.children[position].data
+        val thumbnailImageView = holder.view.imageView_thumbnail
+
         holder.view.textView_article_title?.text = article.title
+        holder.view.textView_author?.text = "by ${article.author}"
+
 //        compatibility issue below sdk 26
 //        val dateConversionFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
 //        val timestamp = article.created
@@ -40,10 +42,6 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
 //
 //        holder?.view?.textView_author?.text = "${date.month.toString().toLowerCase().capitalize()} ${date.dayOfMonth}, ${date.year} by ${article.author}"
 
-        holder.view.textView_author?.text = "by ${article.author}"
-
-        val thumbnailImageView = holder.view.imageView_thumbnail
-
         if(!TextUtils.isEmpty(article.thumbnail.trim()) && article.thumbnail.trim().isNotEmpty()){
             if(Patterns.WEB_URL.matcher(article.thumbnail).matches()){
                 Picasso.get().load(article.thumbnail).into(thumbnailImageView)
@@ -51,11 +49,8 @@ class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder
         } else {
             holder.view.imageView_thumbnail.visibility = View.GONE
         }
-
         holder.article = article
     }
-
-
 }
 
 class CustomViewHolder(val view: View, var article: Article? = null): RecyclerView.ViewHolder(view) {
@@ -72,10 +67,7 @@ class CustomViewHolder(val view: View, var article: Article? = null): RecyclerVi
             intent.putExtra(ARTICLE_TITLE_KEY, article?.title)
             intent.putExtra(ARTICLE_THUMBNAIL_KEY, article?.thumbnail)
             intent.putExtra(ARTICLE_URL_KEY, article?.url)
-
-
             view.context.startActivity(intent)
         }
     }
-
 }

@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        android:textColor="#000000"
+        android:textColor="#787878"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/textView_article_title"
         app:layout_constraintStart_toStartOf="@+id/textView_article_title"
