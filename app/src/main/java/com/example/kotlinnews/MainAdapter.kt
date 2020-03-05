@@ -12,14 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.article_row.view.*
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.*
 
 class MainAdapter(val homeFeed: HomeFeed): RecyclerView.Adapter<CustomViewHolder>() {
-
-    val articleTitles = listOf<String>("first", "second", "third", "fourth")
 
     override fun getItemCount(): Int {
         return homeFeed.data.children.count()
